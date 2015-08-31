@@ -53,37 +53,29 @@
               <li>
                 <label class='checkbox inline'>
                   <input type='checkbox' id='cbType2' />
-                  <span class='filter-box filter-blue'></span>
-                  Housing Assistance
-                </label>
-              </li>
-              <li>
-                <label class='checkbox inline'>
-                  <input type='checkbox' id='cbType3' />
                   <span class='filter-box filter-red'></span>
                   Health Clinics
                 </label>
               </li>
               <li>
                 <label class='checkbox inline'>
-                  <input type='checkbox' id='cbType4' />
-                  <span class='filter-box filter-purple'></span>
-                  Employment and Career Training
+                  <input type='checkbox' id='cbType3' />
+                  <span class='filter-box filter-blue'></span>
+                  Housing Assistance and Shelters
                 </label>
               </li>
               <li>
                 <label class='checkbox inline'>
-                  <input type='checkbox' id='cbType5' />
+                  <input type='checkbox' id='cbType4' />
                   <span class='filter-box filter-yellow'></span>
                   General Services and Other
                 </label>
               </li>
             </ul>
-
             <br />
 
-                        <h4>
-              Address <small>(<a id='find_me' href='#'>find me</a>)</small>
+            <h4>
+            Address <small>(<a id='find_me' href='#'>find me</a>)</small>
             </h4>
             <p>
               <input class='form-control' id='search_address' placeholder='Enter an address or an intersection' type='text' />
@@ -99,8 +91,25 @@
                 </select>
               </label>
             </p>
-            
             <br />
+
+            <h4>
+            Organization Search
+            </h4>
+            <input class='form-control' id='text_search' placeholder="Enter a organization name" type='text' />
+                        
+            <br />
+
+
+            <h4>
+            Service Search
+            </h4>
+            <input class='form-control' id='text_search2' placeholder="Enter a service type" type='text' />
+                        
+            <br />
+
+
+
             <a class='btn btn-primary' id='search' href='#'>
               <i class='glyphicon glyphicon-search'></i>
               Search
@@ -121,7 +130,7 @@
           </noscript>
           <div id='map_canvas'></div>
           <p class='pull-right'>
-            <a href='http://derekeder.com/searchable_map_template/'>Customized Map, developed from Template by </a> by <a href='http://derekeder.com'>Derek Eder</a>.
+            Customized Map by Marynia, developed from <a href='http://derekeder.com/searchable_map_template/'> Derek Eder Template</a>.
         </p>
         </div>
       </div>
@@ -143,10 +152,10 @@
         
         $(function() {
           var myMap = new MapsLib({
-            fusionTableId:      "16Y042-QdxkDL6piJdbpgDuf1tLUyMyqf-X4uqzKG",
+            fusionTableId:      "1IXp-iouilj7yqoEyqNcHMnIX8xeUM_OuH56q9Ss9",
             googleApiKey:       "AIzaSyDklrwbaqFnj1Ft-UyWkWnKWZr7IOMNYDY",
-            locationColumn:     "Address",
-            map_center:         [41.8781136, -87.66677],
+            locationColumn:     "Geometry",
+            map_center:         [41.904993, -87.701773],
             locationScope:      "chicago"
           });
 
