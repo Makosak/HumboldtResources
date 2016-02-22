@@ -84,8 +84,6 @@
 
     //-----custom functions-----
 
-    google.maps.StyledMapType
-    
     //-----end of custom functions-----
 
     MapsLib.prototype.submitSearch = function (whereClause, map) {
