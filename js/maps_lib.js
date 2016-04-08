@@ -1,7 +1,7 @@
 (function (window, undefined) {
     var MapsLib = function (options) {
-
         var self = this;
+
         options = options || {};
 
         this.recordName = options.recordName || "result"; //for showing a count of results
@@ -78,12 +78,8 @@
 
 
         this.myOptions = {
-            zoom: 13,
+            zoom: 14,
             center: this.map_centroid,
-             };
-        
-
-        this.geocoder = new google.maps.Geocoder();
             styles: styleArray
         };
 
@@ -125,7 +121,6 @@
     };
 
     //-----custom functions-----
-
     //-----end of custom functions-----
 
     MapsLib.prototype.submitSearch = function (whereClause, map) {
