@@ -9,16 +9,17 @@
         this.searchRadius = options.searchRadius || 805; //in meters ~ 1/2 mile
 
         // the encrypted Table ID of your Fusion Table (found under File => About)
-        this.fusionTableId = options.fusionTableId || "",
+        this.fusionTableId = options.fusionTableId || "1IADHLqJ-_mCAtmC_2OLiHWXW6b58gg9lz2VNPJul",
+
 
         // Found at https://console.developers.google.com/
         // Important! this key is for demonstration purposes. please register your own.
-        this.googleApiKey = options.googleApiKey || "",
+        this.googleApiKey = options.googleApiKey || "AIzaSyBlElNqMWCzO_psyf0zwhumBViK6gRiMfY",
         
         // name of the location column in your Fusion Table.
         // NOTE: if your location column name has spaces in it, surround it with single quotes
         // example: locationColumn:     "'my location'",
-        this.locationColumn = options.locationColumn || "geometry";
+        this.locationColumn = options.locationColumn || "latitude";
         
         // appends to all address searches if not present
         this.locationScope = options.locationScope || "";
@@ -39,9 +40,43 @@
         else
             this.addrMarkerImage = "images/blue-pushpin.png"
 
-    	this.currentPinpoint = null;
-    	$("#result_count").html("");
-        
+
+         this.currentPinpoint = null;
+        $("#result_count").html("");
+        var styleArray = 
+  [       {"featureType":"administrative","elementType":"labels.text.fill","stylers":[{"color":"#444444"}]},
+        {"featureType":"landscape","elementType":"all","stylers":[{"color":"#f2f2f2"}]},
+        {"featureType":"landscape","elementType":"labels.text.fill","stylers":[{"color":"#ffffff"},{"weight":"1"}]},
+        {"featureType":"landscape","elementType":"labels.text.stroke","stylers":[{"visibility":"off"}]},
+        {"featureType":"transit.station","elementType":"geometry","stylers":[{"lightness":"55"}]},
+        {"featureType":"transit.station.airport","elementType":"all","stylers":[{"visibility":"off"}]},
+        {"featureType":"transit.station.bus","elementType":"all","stylers":[{"visibility":"on"}]},
+        {"featureType":"transit.station.rail","elementType":"all","stylers":[{"visibility":"on"}]},
+        {"featureType":"transit.station.rail","elementType":"labels","stylers":[{"visibility":"on"}]},
+        {"featureType":"landscape.man_made","elementType":"geometry","stylers":[{"visibility":"on"}]},
+        {"featureType":"landscape.natural","elementType":"geometry","stylers":[{"color":"#3f7d1b"}]},
+        {"featureType":"landscape.natural","elementType":"labels","stylers":[{"visibility":"simplified"}]},
+        {"featureType":"landscape.natural","elementType":"labels.icon","stylers":[{"visibility":"on"}]},
+        {"featureType":"landscape.natural.landcover","elementType":"geometry","stylers":[{"color":"#b1e79a"}]},
+        {"featureType":"poi","elementType":"all","stylers":[{"visibility":"off"}]},
+        {"featureType":"poi.attraction","elementType":"geometry","stylers":[{"visibility":"on"},{"color":"#eb91c5"}]},
+        {"featureType":"poi.attraction","elementType":"geometry.fill","stylers":[{"color":"#f13679"}]},
+        {"featureType":"poi.attraction","elementType":"geometry.stroke","stylers":[{"color":"#ffffff"}]},
+        {"featureType":"poi.attraction","elementType":"labels","stylers":[{"visibility":"on"}]},
+        {"featureType":"poi.park","elementType":"geometry","stylers":[{"color":"#82c942"},{"visibility":"on"}]},
+        {"featureType":"poi.park","elementType":"labels","stylers":[{"visibility":"on"}]},
+        {"featureType":"poi.park","elementType":"labels.icon","stylers":[{"visibility":"on"}]},
+        {"featureType":"road","elementType":"all","stylers":[{"saturation":-100},{"lightness":45}]},
+        {"featureType":"road.highway","elementType":"all","stylers":[{"visibility":"simplified"}]},
+        {"featureType":"road.arterial","elementType":"labels.icon","stylers":[{"visibility":"on"}]},
+        {"featureType":"road.local","elementType":"all","stylers":[{"visibility":"simplified"}]},
+        {"featureType":"road.arterial","elementType": "geometry.fill","stylers": [{"color": "#ffffff"}]},
+        {"featureType": "road.arterial","elementType": "geometry.fill","stylers": [{"color": "#ffffff"}]},
+        {"featureType":"water","elementType":"all","stylers":[{"color":"#6ea2b0"},{"visibility":"on"}]}]
+
+        ;
+
+
         this.myOptions = {
             zoom: 13,
             center: this.map_centroid,
@@ -49,6 +84,10 @@
         
 
         this.geocoder = new google.maps.Geocoder();
+            styles: styleArray
+        };
+
+        coder = new google.maps.Geocoder();
         this.map = new google.maps.Map($("#map_canvas")[0], this.myOptions);
         
         // maintains map centerpoint for responsive design
@@ -56,7 +95,10 @@
             self.calculateCenter();
         });
         google.maps.event.addDomListener(window, 'resize', function () {
+            var center = map.getCenter();
             self.map.setCenter(self.map_centroid);
+            google.maps.event.trigger(map, "resize");
+            map.setCenter(center); 
         });
         self.searchrecords = null;
 
