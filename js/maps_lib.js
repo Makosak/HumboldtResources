@@ -9,7 +9,7 @@
         this.searchRadius = options.searchRadius || 805; //in meters ~ 1/2 mile
 
         // the encrypted Table ID of your Fusion Table (found under File => About)
-        this.fusionTableId = options.fusionTableId || "1IADHLqJ-_mCAtmC_2OLiHWXW6b58gg9lz2VNPJul",
+        this.fusionTableId = options.fusionTableId || "1K2Z69OygcMB5Lkwi_frRCPL5bk0myla2YUTg6_91",
 
 
         // Found at https://console.developers.google.com/
@@ -213,7 +213,6 @@
         if ( $("#cbType2").is(':checked')) searchType += "2,";
         if ( $("#cbType3").is(':checked')) searchType += "3,";
         if ( $("#cbType4").is(':checked')) searchType += "4,";
-        if ( $("#cbType5").is(':checked')) searchType += "5,";
 
         self.whereClause += " AND " + searchType.slice(0, searchType.length - 1) + ")";
 
