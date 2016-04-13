@@ -43,6 +43,7 @@
 
          this.currentPinpoint = null;
         $("#result_count").html("");
+        
         var styleArray = 
   [       {"featureType":"administrative","elementType":"labels.text.fill","stylers":[{"color":"#444444"}]},
         {"featureType":"landscape","elementType":"all","stylers":[{"color":"#f2f2f2"}]},
@@ -83,7 +84,7 @@
             styles: styleArray
         };
 
-        coder = new google.maps.Geocoder();
+        this.geocoder = new google.maps.Geocoder();
         this.map = new google.maps.Map($("#map_canvas")[0], this.myOptions);
         
         // maintains map centerpoint for responsive design
