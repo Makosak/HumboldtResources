@@ -25,7 +25,7 @@
         this.locationScope = options.locationScope || "";
 
         // zoom level when map is loaded (bigger is more zoomed in)
-        this.defaultZoom = options.defaultZoom || 11; 
+        this.defaultZoom = options.defaultZoom || 9; 
 
         // center that your map defaults to
         this.map_centroid = new google.maps.LatLng(options.map_center[0], options.map_center[1]);
@@ -77,9 +77,8 @@
 
         ;
 
-
         this.myOptions = {
-            zoom: 14,
+            zoom: 13,
             center: this.map_centroid,
             styles: styleArray
         };
@@ -226,7 +225,7 @@
 
         var text_search2 = $("#text_search2").val().replace("'", "\\'");
         if (text_search2 != '')
-          self.whereClause += " AND 'Services' contains ignoring case '" + text_search2 + "'";
+          self.whereClause += " AND 'cServices' contains ignoring case '" + text_search2 + "'";
 
         //-----end of custom filters-----
 
