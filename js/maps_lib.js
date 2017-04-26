@@ -9,7 +9,7 @@
         this.searchRadius = options.searchRadius || 805; //in meters ~ 1/2 mile
 
         // the encrypted Table ID of your Fusion Table (found under File => About)
-        this.fusionTableId = options.fusionTableId || "1K2Z69OygcMB5Lkwi_frRCPL5bk0myla2YUTg6_91",
+        this.fusionTableId = options.fusionTableId || "1ign5iHsRKI1JutJ7hRVSbMjZChEagwY6avM9hx4S",
 
 
         // Found at https://console.developers.google.com/
@@ -19,7 +19,7 @@
         // name of the location column in your Fusion Table.
         // NOTE: if your location column name has spaces in it, surround it with single quotes
         // example: locationColumn:     "'my location'",
-        this.locationColumn = options.locationColumn || "latitude";
+        this.locationColumn = options.locationColumn || "address";
         
         // appends to all address searches if not present
         this.locationScope = options.locationScope || "";
@@ -226,7 +226,7 @@
 
         var text_search2 = $("#text_search2").val().replace("'", "\\'");
         if (text_search2 != '')
-          self.whereClause += " AND 'services' contains ignoring case '" + text_search2 + "'";
+          self.whereClause += " AND 'Services' contains ignoring case '" + text_search2 + "'";
 
         //-----end of custom filters-----
 
