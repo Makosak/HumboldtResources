@@ -208,12 +208,13 @@
         //-----custom filters-----
         
         //Customized search by checkbox, connected with index.html
-        var type_column = "'Type'";
+        var type_column = "'NewType'";
         var searchType = type_column + " IN (-1,";
         if ( $("#cbType1").is(':checked')) searchType += "1,";
         if ( $("#cbType2").is(':checked')) searchType += "2,";
         if ( $("#cbType3").is(':checked')) searchType += "3,";
         if ( $("#cbType4").is(':checked')) searchType += "4,";
+        if ( $("#cbType5").is(':checked')) searchType += "5,";
 
         self.whereClause += " AND " + searchType.slice(0, searchType.length - 1) + ")";
 
