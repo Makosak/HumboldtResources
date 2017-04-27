@@ -70,32 +70,79 @@
             <p> Explore resources and services by clicking fields on and off. <br> Data is provided and maintained by multiple community organizations and university partners.</p>
             <ul class='inputs-list unstyled'>
               <li>
+                
                 <label class='checkbox inline'>
                   <input type='checkbox' id='cbType1' />
-                  <img src="images/bluepin1.gif"style="height:15px;">
-                  Food and Nutrition Resources
+                  <div id="parent">
+                  <img src="images/orangepin1.gif"style="height:15px;">
+                  Emergency Needs, Social Services
                 </label>
+                <div id="popup" style="display: none"><small class="text-muted">
+                  Emergency Social Services, Housing, Shelter, Personal Essentials, Food Bank, Food Pantry, Social Justice, Advocacy Services, Legal Clinics, Health System Navigation, Health Access Support Services, Childcare Resources, Family Support Services</small></div>
+                </div>  
               </li>
+               
               <li>
+                
                 <label class='checkbox inline'>
                   <input type='checkbox' id='cbType2' />
+                  <div id="parent2">
                   <img src="images/redpin1.gif"style="height:15px;">
-                  Health Clinics & Medical Services
+                  Medical Providers and Health Services
                 </label>
+                    <div id="popup2" style="display: none"><small class="text-muted">Primary Health, Community Clinic, Free Clinic, Hospital
+                    </small></div>
+                </div>
               </li>
+
               <li>
+                
                 <label class='checkbox inline'>
                   <input type='checkbox' id='cbType3' />
+                  <div id="parent3">
                   <img src="images/purplepin1.gif"style="height:15px;">
-                  Exercise and Fitness Resources
+                  Wellness and Healthy Living
                 </label>
+                    <div id="popup3" style="display: none"><small class="text-muted">Community Garden, Open Space, Urban Farming, Cultural Programs, Art, Dance, Music, Theater, Community Garden, Open Space, Urban Farming, Fitness Resources, Gym, Exercise Classes, Outdoor Activity
+                    </small></div>
+                </div>
               </li>
+
               <li>
+                
                 <label class='checkbox inline'>
                   <input type='checkbox' id='cbType4' />
-                  <img src="images/orangepin1.gif"style="height:15px;">
-                  Community Programs and Services
+                  <div id="parent4">
+                  <img src="images/bluepin1.gif"style="height:15px;">
+                  Education and Job Resources
                 </label>
+                   <div id="popup4" style="display: none"><small class="text-muted">Libraries, Schools, Job Training, Job Placement, Education
+                    </small></div>
+                </div> 
+              </li>
+
+               <li>
+                 
+                <label class='checkbox inline'>
+                  <input type='checkbox' id='cbType5' />
+                  <div id="parent5">
+                  <img src="images/yellowpin1.gif"style="height:15px;">
+                  Behavioral Support and Counseling 
+                      <div id="popup5" style="display: none"><small class="text-muted">
+                      Mental Health, Behavioral Health, Addiction Services, Meditation, Spiritual Services, Counseling, Coaching
+                      </small></div>
+                  </div> 
+                  </label>
+                  
+                
+
+
+
+            
+              
+
+
+                               
               </li>
             </ul>
             <br />
@@ -183,9 +230,9 @@
         
         $(function() {
           var myMap = new MapsLib({
-            fusionTableId:      "1K2Z69OygcMB5Lkwi_frRCPL5bk0myla2YUTg6_91",
+            fusionTableId:      "1ign5iHsRKI1JutJ7hRVSbMjZChEagwY6avM9hx4S",
             googleApiKey:       "AIzaSyDklrwbaqFnj1Ft-UyWkWnKWZr7IOMNYDY",
-            locationColumn:     "latitude",
+            locationColumn:     "address",
             map_center:         [41.899072, -87.721248],
             locationScope:      "chicago"
           });

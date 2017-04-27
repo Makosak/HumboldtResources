@@ -9,7 +9,7 @@
         this.searchRadius = options.searchRadius || 805; //in meters ~ 1/2 mile
 
         // the encrypted Table ID of your Fusion Table (found under File => About)
-        this.fusionTableId = options.fusionTableId || "1K2Z69OygcMB5Lkwi_frRCPL5bk0myla2YUTg6_91",
+        this.fusionTableId = options.fusionTableId || "1ign5iHsRKI1JutJ7hRVSbMjZChEagwY6avM9hx4S",
 
 
         // Found at https://console.developers.google.com/
@@ -19,13 +19,13 @@
         // name of the location column in your Fusion Table.
         // NOTE: if your location column name has spaces in it, surround it with single quotes
         // example: locationColumn:     "'my location'",
-        this.locationColumn = options.locationColumn || "latitude";
+        this.locationColumn = options.locationColumn || "address";
         
         // appends to all address searches if not present
         this.locationScope = options.locationScope || "";
 
         // zoom level when map is loaded (bigger is more zoomed in)
-        this.defaultZoom = options.defaultZoom || 11; 
+        this.defaultZoom = options.defaultZoom || 9; 
 
         // center that your map defaults to
         this.map_centroid = new google.maps.LatLng(options.map_center[0], options.map_center[1]);
@@ -77,9 +77,8 @@
 
         ;
 
-
         this.myOptions = {
-            zoom: 14,
+            zoom: 13,
             center: this.map_centroid,
             styles: styleArray
         };
@@ -122,6 +121,48 @@
     };
 
     //-----custom functions-----
+
+    window.onload = function(){ 
+        var e = document.getElementById('parent');
+        e.onmouseover = function() {
+          document.getElementById('popup').style.display = 'block';
+        }
+        e.onmouseout = function() {
+          document.getElementById('popup').style.display = 'none';
+        }
+
+        var e = document.getElementById('parent2');
+        e.onmouseover = function() {
+          document.getElementById('popup2').style.display = 'block';
+        }
+        e.onmouseout = function() {
+          document.getElementById('popup2').style.display = 'none';
+        }
+
+        var e = document.getElementById('parent3');
+        e.onmouseover = function() {
+          document.getElementById('popup3').style.display = 'block';
+        }
+        e.onmouseout = function() {
+          document.getElementById('popup3').style.display = 'none';
+        }
+
+        var e = document.getElementById('parent4');
+        e.onmouseover = function() {
+          document.getElementById('popup4').style.display = 'block';
+        }
+        e.onmouseout = function() {
+          document.getElementById('popup4').style.display = 'none';
+        }      
+
+        var e = document.getElementById('parent5');
+        e.onmouseover = function() {
+          document.getElementById('popup5').style.display = 'block';
+        }
+        e.onmouseout = function() {
+          document.getElementById('popup5').style.display = 'none';
+        }    }
+
     //-----end of custom functions-----
 
     MapsLib.prototype.submitSearch = function (whereClause, map) {
@@ -208,12 +249,13 @@
         //-----custom filters-----
         
         //Customized search by checkbox, connected with index.html
-        var type_column = "'Type'";
+        var type_column = "'NewType'";
         var searchType = type_column + " IN (-1,";
         if ( $("#cbType1").is(':checked')) searchType += "1,";
         if ( $("#cbType2").is(':checked')) searchType += "2,";
         if ( $("#cbType3").is(':checked')) searchType += "3,";
         if ( $("#cbType4").is(':checked')) searchType += "4,";
+        if ( $("#cbType5").is(':checked')) searchType += "5,";
 
         self.whereClause += " AND " + searchType.slice(0, searchType.length - 1) + ")";
 
@@ -225,7 +267,7 @@
 
         var text_search2 = $("#text_search2").val().replace("'", "\\'");
         if (text_search2 != '')
-          self.whereClause += " AND 'services' contains ignoring case '" + text_search2 + "'";
+          self.whereClause += " AND 'cServices' contains ignoring case '" + text_search2 + "'";
 
         //-----end of custom filters-----
 
