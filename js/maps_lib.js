@@ -145,6 +145,48 @@
     };
 
     //-----custom functions-----
+
+    
+    window.onload = function(){ 
+        var e = document.getElementById('parent');
+        e.onmouseover = function() {
+          document.getElementById('popup').style.display = 'block';
+        }
+        e.onmouseout = function() {
+          document.getElementById('popup').style.display = 'none';
+        }
+
+        var e = document.getElementById('parent2');
+        e.onmouseover = function() {
+          document.getElementById('popup2').style.display = 'block';
+        }
+        e.onmouseout = function() {
+          document.getElementById('popup2').style.display = 'none';
+        }
+
+        var e = document.getElementById('parent3');
+        e.onmouseover = function() {
+          document.getElementById('popup3').style.display = 'block';
+        }
+        e.onmouseout = function() {
+          document.getElementById('popup3').style.display = 'none';
+        }
+
+        var e = document.getElementById('parent4');
+        e.onmouseover = function() {
+          document.getElementById('popup4').style.display = 'block';
+        }
+        e.onmouseout = function() {
+          document.getElementById('popup4').style.display = 'none';
+        }      
+
+        var e = document.getElementById('parent5');
+        e.onmouseover = function() {
+          document.getElementById('popup5').style.display = 'block';
+        }
+        e.onmouseout = function() {
+          document.getElementById('popup5').style.display = 'none';
+        }    }
     //-----end of custom functions-----
 
     MapsLib.prototype.submitSearch = function (whereClause, map) {
