@@ -1,4 +1,27 @@
+//https://developers.google.com/fusiontables/docs/samples/change_infowindow_content
+//https://developers.google.com/fusiontables/docs/samples/custom_markers
 (function (window, undefined) {
+    // STEPTOE: EDIT BEGIN 02/14/17
+    // store last opened infowindow to close when a new one is opened
+    var prev_infowindow = false;
+    // Sets the map on all markers in the array.
+    function setMapOnAll(map) {
+        for (var i = 0; i < markers.length; i++) {
+          markers[i].setMap(map);
+      }
+    }
+    // Removes the markers from the map, but keeps them in the array.
+    function clearMarkers() {
+        setMapOnAll(null);
+    }
+    // Deletes all markers in the array by removing references to them.
+    function deleteMarkers() {
+        clearMarkers();
+        markers = [];
+        saved = {};
+    }
+    // STEPTOE: EDIT END 02/14/17
+
     var MapsLib = function (options) {
         var self = this;
 
@@ -9,7 +32,7 @@
         this.searchRadius = options.searchRadius || 805; //in meters ~ 1/2 mile
 
         // the encrypted Table ID of your Fusion Table (found under File => About)
-        this.fusionTableId = options.fusionTableId || "1ign5iHsRKI1JutJ7hRVSbMjZChEagwY6avM9hx4S",
+        this.fusionTableId = options.fusionTableId || "1K2Z69OygcMB5Lkwi_frRCPL5bk0myla2YUTg6_91",
 
 
         // Found at https://console.developers.google.com/
@@ -19,13 +42,13 @@
         // name of the location column in your Fusion Table.
         // NOTE: if your location column name has spaces in it, surround it with single quotes
         // example: locationColumn:     "'my location'",
-        this.locationColumn = options.locationColumn || "address";
+        this.locationColumn = options.locationColumn || "latitude";
         
         // appends to all address searches if not present
         this.locationScope = options.locationScope || "";
 
         // zoom level when map is loaded (bigger is more zoomed in)
-        this.defaultZoom = options.defaultZoom || 9; 
+        this.defaultZoom = options.defaultZoom || 11; 
 
         // center that your map defaults to
         this.map_centroid = new google.maps.LatLng(options.map_center[0], options.map_center[1]);
@@ -77,8 +100,9 @@
 
         ;
 
+
         this.myOptions = {
-            zoom: 13,
+            zoom: 14,
             center: this.map_centroid,
             styles: styleArray
         };
@@ -121,48 +145,6 @@
     };
 
     //-----custom functions-----
-
-    window.onload = function(){ 
-        var e = document.getElementById('parent');
-        e.onmouseover = function() {
-          document.getElementById('popup').style.display = 'block';
-        }
-        e.onmouseout = function() {
-          document.getElementById('popup').style.display = 'none';
-        }
-
-        var e = document.getElementById('parent2');
-        e.onmouseover = function() {
-          document.getElementById('popup2').style.display = 'block';
-        }
-        e.onmouseout = function() {
-          document.getElementById('popup2').style.display = 'none';
-        }
-
-        var e = document.getElementById('parent3');
-        e.onmouseover = function() {
-          document.getElementById('popup3').style.display = 'block';
-        }
-        e.onmouseout = function() {
-          document.getElementById('popup3').style.display = 'none';
-        }
-
-        var e = document.getElementById('parent4');
-        e.onmouseover = function() {
-          document.getElementById('popup4').style.display = 'block';
-        }
-        e.onmouseout = function() {
-          document.getElementById('popup4').style.display = 'none';
-        }      
-
-        var e = document.getElementById('parent5');
-        e.onmouseover = function() {
-          document.getElementById('popup5').style.display = 'block';
-        }
-        e.onmouseout = function() {
-          document.getElementById('popup5').style.display = 'none';
-        }    }
-
     //-----end of custom functions-----
 
     MapsLib.prototype.submitSearch = function (whereClause, map) {
@@ -180,8 +162,60 @@
             styleId: 2,
             templateId: 2
         });
+
+        // STEPTOE: EDIT BEGIN 02/14/17
+        var createMarker = function(index, info) {
+            var marker = new google.maps.Marker({
+                map: map,
+                position: {lat: info[27], lng: info[28]},
+                icon: {
+                    url: saved[info[1]] ? 'images/' + info[10].split('_')[0] +'_stars.png' : 'images/' + info[10] + '.png',
+                    scaledSize: new google.maps.Size(32, 32)
+                }
+            });
+            var infoWindow = new google.maps.InfoWindow({
+                content: ""
+            });
+
+            google.maps.event.addListener(marker, 'click', function(event) {
+                if(prev_infowindow)
+                    prev_infowindow.close();
+
+                infoWindow.setContent('<h2>' + info[1] +  '</h2>' + info[2] + '<br>' + '<a href="' + info[6] + '" target="_blank">' + info[6] + '</a>'
+                    + '<br><br>' + info[3] + '<br>' + info[4] + '<br><br>' 
+                    + '<b>services:</b> ' + info[7] + '<br>' 
+                    + '<b>categories:</b> ' + info[8] + '<br>' 
+                    + '<b>data source:</b> ' + info[5] + '<br><br>' + " "
+                    + '<input type="checkbox" name="save" value="save" id="checkbox_id"'
+                    + (saved[info[1]] ? 'checked' : '' ) 
+                    +' onchange="saveClicked(' + index +')">  <label for="checkbox_id">Save to Resource Cart</label>');
+                prev_infowindow = infoWindow;
+                infoWindow.open(map, marker);
+            });
+
+            markers.push(marker);
+        };
+
+        var url = 'https://www.googleapis.com/fusiontables/v1/query?sql=';
+        var query = "SELECT * FROM 1K2Z69OygcMB5Lkwi_frRCPL5bk0myla2YUTg6_91 WHERE " + whereClause;
+        query = encodeURIComponent(query);
+        url += query + '&key=AIzaSyDklrwbaqFnj1Ft-UyWkWnKWZr7IOMNYDY';
+
+        jQuery.ajax({
+            url: url,
+            dataType: 'json'
+        }).done(function (response) {
+            deleteMarkers();
+            tableData = response;
+            $.each(response.rows, function(index, object){
+                createMarker(index, object);
+            });
+        });
+
         self.fusionTable = self.searchrecords;
-        self.searchrecords.setMap(map);
+        // STEPTOE: Commented this out so that the markers are active instead of fusion table layer
+        // self.searchrecords.setMap(map);
+        // STEPTOE: EDIT END 02/14/17
         self.getCount(whereClause);
     };
 
@@ -249,13 +283,12 @@
         //-----custom filters-----
         
         //Customized search by checkbox, connected with index.html
-        var type_column = "'NewType'";
+        var type_column = "'Type'";
         var searchType = type_column + " IN (-1,";
         if ( $("#cbType1").is(':checked')) searchType += "1,";
         if ( $("#cbType2").is(':checked')) searchType += "2,";
         if ( $("#cbType3").is(':checked')) searchType += "3,";
         if ( $("#cbType4").is(':checked')) searchType += "4,";
-        if ( $("#cbType5").is(':checked')) searchType += "5,";
 
         self.whereClause += " AND " + searchType.slice(0, searchType.length - 1) + ")";
 
@@ -267,7 +300,7 @@
 
         var text_search2 = $("#text_search2").val().replace("'", "\\'");
         if (text_search2 != '')
-          self.whereClause += " AND 'cServices' contains ignoring case '" + text_search2 + "'";
+          self.whereClause += " AND 'services' contains ignoring case '" + text_search2 + "'";
 
         //-----end of custom filters-----
 

@@ -14,12 +14,13 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
     <!-- Scripts -->
-    <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js'></script> 
+    <!-- STEPTOE: EDIT BEGIN 02/14/17 Commented these out since you also have them included below-->
+    <!-- <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js'></script> 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="js/jquery.address.js"></script>
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-    <script type="text/javascript" src="js/maps_lib.js"></script>
-
+    <script type="text/javascript" src="js/maps_lib.js"></script> -->
+    <!-- STEPTOE: EDIT END 02/14/17 -->
 
     <!-- Styles -->
     <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/themes/base/jquery-ui.css" type="text/css" media="all" />
@@ -70,79 +71,32 @@
             <p> Explore resources and services by clicking fields on and off. <br> Data is provided and maintained by multiple community organizations and university partners.</p>
             <ul class='inputs-list unstyled'>
               <li>
-                
                 <label class='checkbox inline'>
                   <input type='checkbox' id='cbType1' />
-                  <div id="parent">
-                  <img src="images/orangepin1.gif"style="height:15px;">
-                  Emergency Needs, Social Services
+                  <img src="images/bluepin1.gif"style="height:15px;">
+                  Food and Nutrition Resources
                 </label>
-                <div id="popup" style="display: none"><small class="text-muted">
-                  Emergency Social Services, Housing, Shelter, Personal Essentials, Food Bank, Food Pantry, Social Justice, Advocacy Services, Legal Clinics, Childcare Resources, Family Support Services</small></div>
-                </div>  
               </li>
-               
               <li>
-                
                 <label class='checkbox inline'>
                   <input type='checkbox' id='cbType2' />
-                  <div id="parent2">
                   <img src="images/redpin1.gif"style="height:15px;">
-                  Medical Providers and Health Services
+                  Health Clinics & Medical Services
                 </label>
-                    <div id="popup2" style="display: none"><small class="text-muted">Primary Health, Community Clinic, Free Clinic, Hospital, Health System Navigation, Health Access Support Services
-                    </small></div>
-                </div>
               </li>
-
               <li>
-                
                 <label class='checkbox inline'>
                   <input type='checkbox' id='cbType3' />
-                  <div id="parent3">
                   <img src="images/purplepin1.gif"style="height:15px;">
-                  Wellness and Healthy Living
+                  Exercise and Fitness Resources
                 </label>
-                    <div id="popup3" style="display: none"><small class="text-muted">Community Garden, Open Space, Urban Farming, Cultural Programs, Art, Dance, Music, Theater, Community Garden, Open Space, Urban Farming, Fitness Resources, Gym, Exercise Classes, Outdoor Activity
-                    </small></div>
-                </div>
               </li>
-
               <li>
-                
                 <label class='checkbox inline'>
                   <input type='checkbox' id='cbType4' />
-                  <div id="parent4">
-                  <img src="images/bluepin1.gif"style="height:15px;">
-                  Education and Job Resources
+                  <img src="images/orangepin1.gif"style="height:15px;">
+                  Community Programs and Services
                 </label>
-                   <div id="popup4" style="display: none"><small class="text-muted">Libraries, Schools, Job Training, Job Placement, Education
-                    </small></div>
-                </div> 
-              </li>
-
-               <li>
-                 
-                <label class='checkbox inline'>
-                  <input type='checkbox' id='cbType5' />
-                  <div id="parent5">
-                  <img src="images/yellowpin1.gif"style="height:15px;">
-                  Behavioral Support and Counseling 
-                      <div id="popup5" style="display: none"><small class="text-muted">
-                      Mental Health, Behavioral Health, Addiction Services, Meditation, Spiritual Services, Counseling, Coaching
-                      </small></div>
-                  </div> 
-                  </label>
-                  
-                
-
-
-
-            
-              
-
-
-                               
               </li>
             </ul>
             <br />
@@ -191,10 +145,6 @@
               <i class='glyphicon glyphicon-repeat'></i>
               Reset
             </a>
-            <a class='btn btn-warning pull-right' href='https://docs.google.com/forms/d/e/1FAIpQLSeDPFBhIjaPDMg5695k9jQJG86B0nr3S6GpEEz1EM0w-FkkNw/viewform'>
-              Edit
-            </a>
-
           </div>
           <div class='alert alert-info' id='result_box' ><strong id='result_count'></strong></div>
         </div>
@@ -207,7 +157,7 @@
           </noscript>
           <div id='map_canvas'></div>
           <p class='pull-right'>
-            Customized by <a href='http://marynia.me'>Marynia</a> from <a href='http://derekeder.com/searchable_map_template/'>Eder's Template</a>.
+            Customized by <a href='http://marynia.me'>Kolak</a> and <a href='https://www.researchgate.net/profile/Michael_Steptoe'>Steptoe</a> from <a href='http://derekeder.com/searchable_map_template/'>Eder's Template</a>.
         </p>
         </div>
       </div>
@@ -218,11 +168,62 @@
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
     <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false&libraries=places"></script>
     <script type="text/javascript" src="js/maps_lib.js"></script>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 
     <script type='text/javascript'>
 
 
+      // STEPTOE: EDIT BEGIN 02/14/17
+      // saved stores all of the resources by chosen identifier
+      var saved = {},
+      // tableData stores the json response from the fustion table query
+      tableData = {},
+      // markers stores the makers currently being displayed on the map
+      markers = [];
 
+      function saveClicked(index, obj){
+        var info = tableData.rows[index];
+        // store by identifying information for quick querying later such as resource_id, name, etc. 
+        // since resource_id is returning NAN for some resources we will use name instead,
+        // which is index 1 of the info array to check which values are stored where try calling getDataColumns()
+        var identifier = info[1];
+        if(saved[identifier]){
+          delete saved[identifier];
+          markers[index].setIcon({
+            url: 'images/' + info[10] +'.png',
+            scaledSize: new google.maps.Size(32, 32)
+          });
+        }
+        else{                   
+          saved[identifier] = info;
+          markers[index].setIcon({
+            url: 'images/' + info[10].split('_')[0] +'_stars.png',
+            scaledSize: new google.maps.Size(32, 32)
+          });
+        }
+      }
+
+      // Delete this later, just a quick function to get the available columns in the response data
+      function getDataColumns(){
+        return tableData.columns;
+      }
+      // Example of how to get the chosen identifiers from the saved resources
+      function getSavedIds(){
+        var list = [];
+        $.each(saved, function(index, obj){
+          list.push(index);
+        })
+        return list;
+      }
+      // Example of how to get the information from the saved resources
+      function getSavedInfo(){
+        var list = [];
+        $.each(saved, function(index, obj){
+          list.push(obj);
+        })
+        return list;
+      }
+      // STEPTOE: EDIT END 02/14/17
 
       //<![CDATA[
         $(window).resize(function () {
@@ -234,9 +235,9 @@
         
         $(function() {
           var myMap = new MapsLib({
-            fusionTableId:      "1ign5iHsRKI1JutJ7hRVSbMjZChEagwY6avM9hx4S",
+            fusionTableId:      "1K2Z69OygcMB5Lkwi_frRCPL5bk0myla2YUTg6_91",
             googleApiKey:       "AIzaSyDklrwbaqFnj1Ft-UyWkWnKWZr7IOMNYDY",
-            locationColumn:     "address",
+            locationColumn:     "latitude",
             map_center:         [41.899072, -87.721248],
             locationScope:      "chicago"
           });
